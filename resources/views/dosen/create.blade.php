@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en">
-    <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Halaman Mahasiswa</title>
+    <title>Halaman Mahasiswa - Tambah Dosen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         html, body {
@@ -14,10 +15,176 @@
         body {
             display: flex;
             flex-direction: column;
+            /* Background gradasi hijau gelap sesuai gambar */
+            background: radial-gradient(circle at center, #2d442c 0%, #162214 100%) !important;
+            font-family: 'Poppins', sans-serif;
         }
         
         .navbar {
             padding: 10px; 
+            background-color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        /* Container Utama Form */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Wrapper Efek Kaca (Glassmorphism) */
+        .glass-card {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            padding: 60px 40px 40px 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Efek kilatan cahaya diagonal pada kaca */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.08) 48%, rgba(255, 255, 255, 0.12) 50%, transparent 55%);
+            pointer-events: none;
+            border-radius: 25px;
+        }
+
+        /* Avatar Lingkaran di Atas Kartu */
+        .avatar-box {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 90px;
+            background: #192513;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .avatar-box svg {
+            width: 45px;
+            height: 45px;
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 1.5;
+        }
+
+        /* Styling Judul */
+        .glass-title {
+            color: #ffffff;
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 30px;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        /* Penyesuaian Tabel & Form di dalam Kaca */
+        .glass-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px; /* Memberikan jarak antar baris */
+        }
+
+        .glass-table td {
+            color: #ffffff;
+            vertical-align: middle;
+            font-size: 15px;
+        }
+
+        /* Label Kolom Pertama */
+        .glass-table td:first-child {
+            width: 35%;
+            font-weight: 400;
+        }
+
+        /* Kolom Titik Dua */
+        .glass-table td:nth-child(2) {
+            width: 5%;
+            text-align: center;
+        }
+
+        /* Styling Input dan Textarea agar Senada dengan Gambar */
+        .glass-table input[type="text"],
+        .glass-table textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #e9e9e9;
+            color: #333333;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .glass-table input[type="text"]:focus,
+        .glass-table textarea:focus {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-table textarea {
+            height: 80px;
+            resize: none;
+        }
+
+        /* Wrapper & Button Styling Berwarna Hijau Gelap */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn-custom-dark {
+            flex: 1;
+            background: #192513;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-custom-dark:hover {
+            background: #24351b;
+            color: #ffffff;
+        }
+
+        .btn-custom-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 25px;
+            font-size: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-custom-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
         }
     </style>
 </head>
@@ -31,7 +198,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5">
         <li class="nav-item">
-            <img src="{{ asset('img/download (4).png') }}" alt="Logo Itbss" width="40" height="auto">
+            <img src="{{ asset('images/LOGO-ITBSSs.png') }}" alt="Logo Itbss" width="40" height="auto">
         </li>
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="/">Home</a>
@@ -45,84 +212,90 @@
             <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MahasiswaController::class, 'index']) }}">Mahasiswa</a></li>
             <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\KelasController::class, 'index']) }}">Kuliah</a></li>
             <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\JurusanController::class, 'index']) }}">Jurusan</a></li>
-            <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MataKuliahController::class, 'index']) }}">Mata Kuliah</a></li>
+            <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MatakuliahController::class, 'index']) }}">Mata Kuliah</a></li>
           </ul>
         </li>
       </ul>
-      <!-- <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
     </div>
   </div>
 </nav>
 
-    <h1 class="text-center p-3">Tambah Dosen</h1>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<div class="main-content">
+    <div class="glass-card">
+        <div class="avatar-box">
+            <svg viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+        </div>
 
-    <form class="form mb-3" action="{{ action([App\Http\Controllers\DosenController::class, 'store']) }}" method="post">
-      @csrf
-      <table>
-        <tr>
-          <td>Nama Lengkap</td><td>:</td><td><input type="text" name="fullname"></td>
-        </tr>
-        <tr>
-          <td>Nomor Induk Pegawai</td><td>:</td><td><input type="text" name="NIP"></td>
-        </tr>
-        <tr>
-          <td>Nomor Induk Dosen Nasional</td><td>:</td><td><input type="text" name="NIDN"></td>
-        </tr>
-        <tr>
-          <td>Pendidikan Terakhir</td><td>:</td><td><input type="text" name="pendidikan_terakhir"></td>
-        </tr>
-        <tr>
-          <td>Jurusan ID</td><td>:</td><td><input type="text" name="jurusan_id"></td>
-        </tr>
-        <tr>
-          <td>Tempat Lahir</td><td>:</td><td><input type="text" name="tempat_lahir"></td>
-        </tr>
-        <tr>
-          <td>Tanggal Lahir</td><td>:</td><td><input type="text" name="tanggal_lahir"></td>
-        </tr>
-        <tr>
-          <td>Alamat</td><td>:</td><td><textarea name="alamat"></textarea></td>
-        </tr>
-        <tr>
-          <td>
-            <button type="submit" class="btn btn-primary btn-lg" class="button">Add</button>
-            <button type="reset" class="btn btn-secondary btn-lg" class="button">Clear</button>
-          </td>
-        </tr>
-      </table>      
-    </form>
+        <h1 class="glass-title">Tambah Data Dosen</h1>
+
+        <form action="{{ action([App\Http\Controllers\DosenController::class, 'store']) }}" method="post">
+          @csrf
+          <table class="glass-table">
+            <tr>
+              <td>Nama Lengkap</td><td>:</td><td><input type="text" name="fullname" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td>Nomor Induk Pegawai</td><td>:</td><td><input type="text" name="NIP" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td>Nomor Induk Dosen Nasional</td><td>:</td><td><input type="text" name="NIDN" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td>Pendidikan Terakhir</td><td>:</td><td><input type="text" name="pendidikan_terakhir" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td>Jurusan ID</td><td>:</td><td><input type="text" name="jurusan_id" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td>Tempat Lahir</td><td>:</td><td><input type="text" name="tempat_lahir" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td>Tanggal Lahir</td><td>:</td><td><input type="text" name="tanggal_lahir" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td>Alamat</td><td>:</td><td><textarea name="alamat"></textarea></td>
+            </tr>
+            <tr>
+              <td></td><td></td>
+              <td>
+                <div class="button-group">
+                    <button type="submit" class="btn-custom-dark">ADD</button>
+                    <button type="reset" class="btn-custom-secondary">Clear</button>
+                </div>
+              </td>
+            </tr>
+          </table>      
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 
 <footer class="bg-dark text-white pt-5 pb-4 mt-auto">
     <div class="container text-center text-md-start">
         <div class="row text-center text-md-start">
-      
             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h5 class="text-uppercase mb-4 font-weight-bold text-info">ITBSS</h5>
                 <p>Sistem Informasi Akademik untuk pengelolaan data Mahasiswa, Dosen, Jurusan, dan Mata Kuliah.</p>
             </div>
-
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                 <h5 class="text-uppercase mb-4 font-weight-bold text-info">Menu</h5>
                 <p><a href="{{ action([App\Http\Controllers\MahasiswaController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Mahasiswa</a></p>
                 <p><a href="{{ action([App\Http\Controllers\DosenController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Dosen</a></p>
                 <p><a href="{{ action([App\Http\Controllers\JurusanController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Jurusan</a></p>
-                <p><a href="{{ action([App\Http\Controllers\MataKuliahController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Mata Kuliah</a></p>
+                <p><a href="{{ action([App\Http\Controllers\MatakuliahController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Mata Kuliah</a></p>
             </div>
-
             <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h5 class="text-uppercase mb-4 font-weight-bold text-info">Kontak</h5>
                 <p><i class="fas fa-home mr-3"></i> Pontianak, Indonesia</p>
                 <p><i class="fas fa-envelope mr-3"></i> admin@itbss.ac.id</p>
             </div>
         </div>
-
         <hr class="mb-4">
-
         <div class="row align-items-center">
             <div class="col-md-7 col-lg-8">
                 <p>© 2026 Copyright: <strong>Sistem Akademik</strong></p>
@@ -130,5 +303,4 @@
         </div>
     </div>
 </footer>
-
 </html>

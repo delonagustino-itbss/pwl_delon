@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="en">
-    <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Halaman Mahasiswa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    
+    <title>Sistem Academic ITBSS - Data Jurusan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
         html, body {
             height: 100%;
@@ -14,123 +15,321 @@
         body {
             display: flex;
             flex-direction: column;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            background-color: #1e2d1b; 
+            overflow-x: hidden;
         }
-        
+
+        /* Latar belakang proyek menggunakan file bg.jpg */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{{ asset('images/bg.jpg') }}") no-repeat center center;
+            background-size: cover;
+            filter: blur(2px) brightness(0.8) saturate(1.1);
+            transform: scale(1.02);
+            z-index: -2;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 15, 10, 0.15);
+            z-index: -1;
+        }
+
+        /* Navbar Utama */
         .navbar {
-            padding: 10px; 
+            padding: 15px 0;
+            background: rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            z-index: 9999 !important; 
         }
+
+        .navbar .nav-link, .navbar .navbar-brand {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+
+        /* Menu Dropdown Putih Terang (Light Glass) agar tulisan jelas terlihat */
+        .navbar .dropdown-menu {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 10000 !important;
+            padding: 8px 0;
+        }
+
+        .navbar .dropdown-item {
+            color: #1e2d1b !important;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 10px 20px;
+            transition: all 0.2s;
+        }
+
+        .navbar .dropdown-item:hover {
+            background-color: rgba(46, 125, 50, 0.15) !important;
+            color: #1b5e20 !important;
+        }
+
+        .navbar .dropdown-item.active {
+            background-color: #2e7d32 !important;
+            color: #ffffff !important;
+        }
+
+        /* Panel Kaca Utama Wadah Luar */
+        .glass-panel {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
+            color: #ffffff;
+            z-index: 1; 
+        }
+
+        .page-title {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        /* =======================================================
+           EFEK TRANSPARANSI PREMIUM iOS WIDGET (JURUSAN)
+           ======================================================= */
+        .ios-table-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px; 
+            margin-top: 20px;
+        }
+
+        /* Baris Header Grid */
+        .ios-header-row {
+            display: grid;
+            grid-template-columns: 60px 3fr 2fr 2fr 2fr; /* Pembagian rasio kolom */
+            gap: 12px;
+            padding: 0 10px;
+        }
+
+        .ios-th {
+            color: #8edba3;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-align: center;
+            padding: 10px 5px;
+        }
+
+        /* Baris Data Utama Grid */
+        .ios-data-row {
+            display: grid;
+            grid-template-columns: 60px 3fr 2fr 2fr 2fr;
+            gap: 12px; 
+            align-items: stretch;
+        }
+
+        /* Sel Kaca Transparan Tebal Khas iPhone */
+        .ios-td {
+            background: rgba(255, 255, 255, 0.55) !important;
+            backdrop-filter: blur(30px) saturate(1.8);
+            -webkit-backdrop-filter: blur(30px) saturate(1.8);
+            
+            border-radius: 16px;
+            
+            border-top: 1.5px solid rgba(255, 255, 255, 0.65) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+            border-left: 1px solid rgba(255, 255, 255, 0.35) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.35) !important;
+            
+            padding: 16px 14px;
+            color: #000000 !important; /* Hitam pekat agar kontras menembus kaca */
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            word-break: break-word;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ios-td.center {
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Efek Hover Baris */
+        .ios-data-row:hover .ios-td {
+            background: rgba(255, 255, 255, 0.70) !important;
+            border-top-color: rgba(255, 255, 255, 0.9) !important;
+            transform: scale(1.005);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Gaya Tombol */
+        .btn-create {
+            background-color: #192513;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-create:hover {
+            background-color: #24351b;
+            box-shadow: 0 0 15px rgba(255,255,255,0.25);
+        }
+
+        .btn-action-edit {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 13px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-action-edit:hover { background-color: #1b5e20; color: white; }
+
+        .btn-action-delete {
+            background-color: #c62828;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 13px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        .btn-action-delete:hover { background-color: #b71c1c; color: white; }
+
+        /* Footer */
+        footer {
+            background: rgba(12, 19, 10, 0.85) !important;
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.65);
+        }
+        footer h5 { color: #8edba3 !important; font-weight: 600; }
     </style>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5">
-        <li class="nav-item">
-            <img src="{{ asset('img/download (4).png') }}" alt="Logo Itbss" width="40" height="auto">
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/">Home</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Menu
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\DosenController::class, 'index']) }}">Dosen</a></li>
-            <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MahasiswaController::class, 'index']) }}">Mahasiswa</a></li>
-            <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\KelasController::class, 'index']) }}">Kuliah</a></li>
-            <li><a class="dropdown-item active" href="{{ action([App\Http\Controllers\JurusanController::class, 'index']) }}">Jurusan</a></li>
-            <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MataKuliahController::class, 'index']) }}">Mata Kuliah</a></li>
-          </ul>
-        </li>
-      </ul>
-      <!-- <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
+
+<div class="bg-container"></div>
+<div class="bg-overlay"></div>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="{{ asset('images/LOGO-ITBSSs.png') }}" alt="Logo Itbss" width="35" class="me-2">
+            <span>ITBSS</span>
+        </a>
+        <button class="navbar-toggler border-white-50" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-5">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        Menu
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\DosenController::class, 'index']) }}">Dosen</a></li>
+                        <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MahasiswaController::class, 'index']) }}">Mahasiswa</a></li>
+                        <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\KelasController::class, 'index']) }}">Kelas</a></li>
+                        <li><a class="dropdown-item active" href="{{ action([App\Http\Controllers\JurusanController::class, 'index']) }}">Jurusan</a></li>
+                        <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MatakuliahController::class, 'index']) }}">Mata Kuliah</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 
-    <h1 class="text-center p-3">Table Jurusan</h1>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    
-    <a href="{{ action([App\Http\Controllers\JurusanController::class, 'create']) }}">
-    <input type="button" class="btn btn-primary btn-lg" value="Create">
-    </a>
+<div class="main-content">
+    <div class="container-fluid px-5">
+        <div class="glass-panel">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                <h1 class="page-title mb-0">Table Jurusan</h1>
+                <a href="{{ action([App\Http\Controllers\JurusanController::class, 'create']) }}">
+                    <button type="button" class="btn btn-create">Data Baru (Create)</button>
+                </a>
+            </div>
 
-    <br>
-    <br>
+            <div class="ios-table-container">
+                
+                <div class="ios-header-row">
+                    <div class="ios-th">No</div>
+                    <div class="ios-th">Nama Jurusan</div>
+                    <div class="ios-th">Kode Jurusan</div>
+                    <div class="ios-th">Tanggal Pembuatan</div>
+                    <div class="ios-th">Aksi</div>
+                </div>
 
-    <table class="table table-dark table-hover" class="table table-hover" >
-        <thead>
-            <th>No</th>
-            <th>Nama Jurusan</th>
-            <th>Kode Jurusan</th>
-            <th>Tanggal Pembuatan</th>
-            <th></th>
-        </thead>
+                @foreach ($jurusan as $j)
+                <div class="ios-data-row">
+                    <div class="ios-td center fw-bold">{{ $j->id }}</div>
+                    <div class="ios-td fw-semibold">{{ $j->nama_jurusan }}</div>
+                    <div class="ios-td center">{{ $j->kode_jurusan }}</div>
+                    <div class="ios-td center">{{ $j->created_at }}</div>
+                    <div class="ios-td center">
+                        <div class="d-flex gap-2 justify-content-center w-100">
+                            <a href="{{ action([App\Http\Controllers\JurusanController::class, 'edit'], [$j->id]) }}" class="text-decoration-none">
+                                <button type="button" class="btn btn-action-edit">Edit</button>
+                            </a>
+                            <form action="{{ action([App\Http\Controllers\JurusanController::class, 'destroy'], [$j->id]) }}" method="post" class="m-0" onsubmit="return confirm('Hapus data jurusan ini?')">
+                                @csrf
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-action-delete">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
 
-        <tbody>
-            @foreach ($jurusan as $j)
-            <tr>
-                <td>{{$j->id}}</td> 
-                <td>{{$j->nama_jurusan}}</td>
-                <td>{{$j->kode_jurusan}}</td>
-                <td>{{$j->created_at}}</td>
-                <td>
-                    <a href="{{ action([App\Http\Controllers\JurusanController::class, 'edit'], [$j->id]) }}">
-                    <input type="button" class="btn btn-primary btn-lg" value="Edit">
-                    </a>
-                    <form class="form" action="{{ action([App\Http\Controllers\JurusanController::class, 'destroy'], [$j->id]) }}" method="post">
-                    @csrf
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="submit" class="btn btn-secondary btn-lg" value="Delete">
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</body>
+            </div> </div>
+    </div>
+</div>
 
-<footer class="bg-dark text-white pt-5 pb-4 mt-auto">
+<footer class="pt-5 pb-4 mt-auto">
     <div class="container text-center text-md-start">
-        <div class="row text-center text-md-start">
-      
-            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-info">ITBSS</h5>
-                <p>Sistem Informasi Akademik untuk pengelolaan data Mahasiswa, Dosen, Jurusan, dan Mata Kuliah.</p>
-            </div>
-
-            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-info">Menu</h5>
-                <p><a href="{{ action([App\Http\Controllers\MahasiswaController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Mahasiswa</a></p>
-                <p><a href="{{ action([App\Http\Controllers\DosenController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Dosen</a></p>
-                <p><a href="{{ action([App\Http\Controllers\JurusanController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Jurusan</a></p>
-                <p><a href="{{ action([App\Http\Controllers\MataKuliahController::class, 'index']) }}" class="text-white" style="text-decoration: none;">Mata Kuliah</a></p>
-            </div>
-
-            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-info">Kontak</h5>
-                <p><i class="fas fa-home mr-3"></i> Pontianak, Indonesia</p>
-                <p><i class="fas fa-envelope mr-3"></i> admin@itbss.ac.id</p>
+        <div class="row">
+            <div class="col-md-4 mx-auto mt-3">
+                <h5>ITBSS</h5>
+                <p class="text-white-50">Sistem Informasi Akademik Terintegrasi Sabda Setia.</p>
             </div>
         </div>
-
-        <hr class="mb-4">
-
-        <div class="row align-items-center">
-            <div class="col-md-7 col-lg-8">
-            <p>© 2026 Copyright: <strong>Sistem Akademik</strong></p>
-        </div>
-        </div>
+        <hr class="mb-4" style="border-color: rgba(255,255,255,0.15)">
+        <p class="text-center mb-0 text-white-50">© 2026 Copyright: <strong>Institut Teknologi & Bisnis Sabda Setia</strong></p>
     </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
